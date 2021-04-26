@@ -1,0 +1,139 @@
+/CONSULTA DE DOCUMENTOS EN MONGO
+
+/CONSULTAR # DE DOCUMENTOS
+db.Olympics.count()
+
+/DOCUMENTOS CON REGISTROS EN NAME
+db.Olympics.count( { name: { $exists: true } } )
+
+/DOCUMENTOS CON REGISTROS EN SEX
+db.Olympics.count( { Sex: { $exists: true } } )
+
+/NUMERO DE REGISTROS DE MUJERES
+db.Olympics.count( { Sex:  "F" } )
+
+/NUMERO DE REGISTROS DE HOMBRES
+db.Olympics.count( { Sex:  "M" } )
+
+/DOCUMENTOS CON ALGUNA MEDALLA GANADA
+db.Olympics.count( { Medal: { $ne: null } } )
+
+/MEDALLAS DE ORO
+db.Olympics.find({Medal:"Gold"}).count()
+
+/NOMBRE DE GANADORES DE ORO
+db.Olympics.distinct("name",{Medal:"Gold"})
+
+/PAISES CON MEDALLAS DE ORO
+db.Olympics.distinct("NOC",{Medal:"Gold"})
+db.Olympics.distinct("Team",{Medal:"Gold"})
+
+/MEDALLAS DE PLATA
+db.Olympics.find({Medal:"Silver"}).count()
+
+/NOMBRE DE GANADORES DE PLATA
+db.Olympics.distinct("name",{Medal:"Silver"})
+
+/MEDALLAS DE BRONCE
+db.Olympics.find({Medal:"Bronze"}).count()
+
+/NOMBRE DE GANADORES DE BRONCE
+db.Olympics.distinct("name",{Medal:"Bronze"})
+
+/NO GANADORES (SIN MEDALLA)
+db.Olympics.find({Medal:null}).count()
+
+/MEDALLAS DE ORO EN MUJERES
+db.Olympics.find({Medal:"Gold", Sex: "F"}).count()
+
+/MEDALLAS DE ORO EN HOMBRES
+db.Olympics.find({Medal:"Gold", Sex: "M"}).count()
+
+/DOCUMENTOS CON REGISTRO DE EDAD DIFERENTE A NA
+db.Olympics.count( { Age: { $ne: null } } )
+
+/PROMEDIO DE LA EDAD
+db.Olympics.aggregate([{$group: {_id:null, promAge: {$avg:"$Age"} } }])
+
+/MAXIMO DE LA EDAD
+db.Olympics.aggregate([{$group: {_id:null, max: {$max:"$Age"} } }])
+
+/MINIMO DE LA EDAD
+db.Olympics.aggregate([{$group: {_id:null, min: {$min:"$Age"} } }])
+
+/PROMEDIO EDAD POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", promAge: {$avg:"$Age"} } }])
+
+/MAXIMO DE EDAD POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", max: {$max:"$Age"} } }])
+
+/MINIMO DE EDAD POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", min: {$min:"$Age"} } }])
+
+/DOCUMENTOS CON REGISTRO DE ALTURA DIFERENTE A NA
+db.Olympics.count( { Height: { $ne: null } } )
+
+/PROMEDIO DE LA TALLA
+db.Olympics.aggregate([{$group: {_id:null, promHeight: {$avg:"$Height"} } }])
+
+/MAXIMO DE LA TALLA
+db.Olympics.aggregate([{$group: {_id:null, max: {$max:"$Height"} } }])
+
+/MINIMO DE LA TALLA
+db.Olympics.aggregate([{$group: {_id:null, min: {$min:"$Height"} } }])
+
+/MAXIMO DE TALLA POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", max: {$max:"$Height"} } }])
+
+/MINIMO DE TALLA POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", min: {$min:"$Height"} } }])
+
+/PROMEDIO TALLA POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", prom: {$avg:"$Height"} } }])
+
+/DOCUMENTOS CON REGISTRO DE PESO DIFERENTE A NA
+db.Olympics.count( { Weight: { $ne: null } } )
+
+/PROMEDIO DE PESO
+db.Olympics.aggregate([{$group: {_id:null, promWeight: {$avg:"$Weight"} } }])
+
+/MAXIMO DE PESO
+db.Olympics.aggregate([{$group: {_id:null, max: {$max:"$Weight"} } }])
+
+/MINIMO DE PESO
+db.Olympics.aggregate([{$group: {_id:null, min: {$min:"$Weight"} } }])
+
+/PROMEDIO DE PESO POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", prom: {$avg:"$Weight"} } }])
+
+/MAXIMO PESO POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", max: {$max:"$Weight"} } }])
+
+/MINIMO PESO POR SEXO
+db.Olympics.aggregate([{$group: {_id:"$Sex", min: {$min:"$Weight"} } }])
+
+/CIUDADES EN LOS DOCUMENTOS
+db.Olympics.distinct( "City" )
+db.Olympics.aggregate([{$group : {_id : "$City"}}])
+
+/ANOS EN LOS DOCUMENTOS
+db.Olympics.distinct( "Year" )
+
+/PAISES DE LOS ATLETAS
+db.Olympics.distinct( "NOC" )
+
+/PAISES CON MEDALLAS DE ORO
+db.Olympics.distinct("NOC",{Medal:"Gold"})
+db.Olympics.distinct("Team",{Medal:"Gold"})
+
+/PAISES CON MEDALLAS
+db.Olympics.distinct("NOC",{Medal:{ $ne: null }})
+
+/DEPORTES CON MEDALLAS
+db.Olympics.distinct("Sport",{Medal:{ $ne: null }})
+
+/DISCIPLINAS OLIMPICAS CON MEDALLAS
+db.Olympics.distinct("Event",{Medal:{ $ne: null }})
+
+/EDAD DE LOS GANADORES DE MEDALLAS
+db.Olympics.distinct("Age",{Medal:{ $ne: null }})
