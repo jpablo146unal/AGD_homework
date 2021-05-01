@@ -82,3 +82,9 @@ where m.Medal <> 'NA'
 group by a.Name
 order by count(0) desc
 limit 5 
+-- 7. Promedio de Edades por años
+select round(avg(age)) AVGAge, g.year
+from Events e inner join Games g
+     on e.IDGame = g.IDGame
+where e.age <> 'NULL'
+group by g.Year
